@@ -9,9 +9,15 @@ public class PlayerMovement : MonoBehaviour
 {
     public PlayerMovementStats stats;
     private Rigidbody2D rb;
+
+    //movement
     private Vector2 movement;
-    private bool isShooting;
     private Vector2 moveVelocity;
+
+    //shooting
+    private bool isShooting;
+    [SerializeField] private Transform bulletSpawnPoint;
+    [SerializeField] private GameObject bulletPrefab;
 
     void Awake()
     {
@@ -66,9 +72,14 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Shooting Logic
     void Shoot()
     {
-        Debug.Log("Is Shooting!!");
+        var b =  Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
+        b.GetComponent<Bullet>().isPlayerBullet = true;
+        b.GetComponent<Bullet>().Fire(Vector2.up, stats.bulletSpeed);
     }
 
     #endregion
