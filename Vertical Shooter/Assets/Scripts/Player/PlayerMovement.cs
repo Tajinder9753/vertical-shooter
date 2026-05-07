@@ -15,7 +15,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveVelocity;
 
     //shooting
-    private bool isShooting;
+    private bool isShooting = false;
+    private float shootTimer = 0f;
     [SerializeField] private Transform bulletSpawnPoint;
     [SerializeField] private GameObject bulletPrefab;
 
@@ -28,7 +29,18 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         Move(stats.acceleration, stats.deceleration, movement);
-        if (isShooting) { Shoot(); }
+
+        // Continuous firing while button is held. firingRate is shots per second.
+        if (isShooting)
+        {
+            shootTimer += Time.fixedDeltaTime;
+            float interval = 1f / stats.firingRate;
+            while (shootTimer >= interval)
+            {
+                Shoot();
+                shootTimer -= interval;
+            }
+        }
     }
 
     #region Input Callbacks
@@ -43,11 +55,16 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.performed)
         {
+            // start firing and shoot immediately
             isShooting = true;
+            Shoot();
+            shootTimer = 0f;
         }
         else if (context.canceled)
         {
+            // stop firing when button released
             isShooting = false;
+            shootTimer = 0f;
         }
     }
 
