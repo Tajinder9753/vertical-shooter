@@ -1,0 +1,4 @@
+repository "Vertical Shooter/Vertical Shooter@3574051074693@cloud"
+  path "/"
+    br "/main"
+    co "/main"
