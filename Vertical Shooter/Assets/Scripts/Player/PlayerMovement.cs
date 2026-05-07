@@ -10,10 +10,12 @@ public class PlayerMovement : MonoBehaviour
     public PlayerMovementStats stats;
     private Rigidbody2D rb;
     [SerializeField] private Camera mainCamera;
+    private Animator anim;
 
     //movement
     private Vector2 movement;
     private Vector2 moveVelocity;
+    private bool isMovingRight = false;
 
     //shooting
     private bool isShooting = false;
@@ -24,23 +26,21 @@ public class PlayerMovement : MonoBehaviour
     //rotation
     private Vector2 lookMovement;
 
+    //health
+    private float currentHealth;
+
+    public enum MovementState { Idle, MovingRight, MoveingLeft }
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     private void Update()
     {
-        Vector3 direction = Vector3.zero;
-
-        Vector3 mouseWorld = mainCamera.ScreenToWorldPoint(new Vector3(lookMovement.x, lookMovement.y, -mainCamera.transform.position.z));
-        direction = mouseWorld - transform.position;
-        direction.z = 0f;
-
-        if (direction.sqrMagnitude < 0.01f) return;
-
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg -90f;
-        transform.rotation = Quaternion.Euler(0f, 0f, angle);
+        Look();
+        TurnCheck(movement);
     }
 
     void FixedUpdate()
@@ -111,6 +111,45 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void TurnCheck(Vector2 moveInput)
+    {
+        Vector2 localInput = transform.InverseTransformDirection(moveInput);
+
+        if (localInput.x > 0.1f)
+        {
+            SetMovementState(MovementState.MovingRight);
+        }
+        else if (localInput.x < -0.1f)
+        {
+            SetMovementState(MovementState.MoveingLeft);
+        }
+        else
+        {
+            SetMovementState(MovementState.Idle);
+        }
+    }
+
+    void SetMovementState(MovementState state)
+    {
+        anim.SetInteger("MovementState", (int)state);
+    }
+
+    #endregion
+
+    #region Look Logic
+    void Look()
+    {
+        Vector3 direction = Vector3.zero;
+
+        Vector3 mouseWorld = mainCamera.ScreenToWorldPoint(new Vector3(lookMovement.x, lookMovement.y, -mainCamera.transform.position.z));
+        direction = mouseWorld - transform.position;
+        direction.z = 0f;
+
+        if (direction.sqrMagnitude < 0.01f) return;
+
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
+        transform.rotation = Quaternion.Euler(0f, 0f, angle);
+    }
     #endregion
 
     #region Shooting Logic

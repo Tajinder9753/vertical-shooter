@@ -11,4 +11,7 @@ public class PlayerMovementStats : ScriptableObject
     //bullet firing
     public float firingRate;
     public float bulletSpeed;
+
+    //health
+    public float maxHealth;
 }
