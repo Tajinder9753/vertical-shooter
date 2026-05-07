@@ -15,5 +15,5 @@ MonoBehaviour:
   acceleration: 5
   deceleration: 2
   moveSpeed: 10
-  firingRate: 0
+  firingRate: 1
   bulletSpeed: 8

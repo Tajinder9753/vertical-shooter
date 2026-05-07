@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public PlayerMovementStats stats;
     private Rigidbody2D rb;
+    [SerializeField] private Camera mainCamera;
 
     //movement
     private Vector2 movement;
@@ -20,12 +21,28 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform bulletSpawnPoint;
     [SerializeField] private GameObject bulletPrefab;
 
+    //rotation
+    private Vector2 lookMovement;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
+    private void Update()
+    {
+        Vector3 direction = Vector3.zero;
+
+        Vector3 mouseWorld = mainCamera.ScreenToWorldPoint(new Vector3(lookMovement.x, lookMovement.y, -mainCamera.transform.position.z));
+        direction = mouseWorld - transform.position;
+        direction.z = 0f;
+
+        if (direction.sqrMagnitude < 0.01f) return;
+
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg -90f;
+        transform.rotation = Quaternion.Euler(0f, 0f, angle);
+    }
+
     void FixedUpdate()
     {
         Move(stats.acceleration, stats.deceleration, movement);
@@ -68,6 +85,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        lookMovement = context.ReadValue<Vector2>();
+    }
+
     #endregion
 
     #region Movement Logic
@@ -96,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
     {
         var b =  Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
         b.GetComponent<Bullet>().isPlayerBullet = true;
-        b.GetComponent<Bullet>().Fire(Vector2.up, stats.bulletSpeed);
+        b.GetComponent<Bullet>().Fire(transform.up, stats.bulletSpeed);
     }
 
     #endregion
