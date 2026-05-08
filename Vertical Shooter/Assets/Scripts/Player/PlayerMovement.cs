@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -15,7 +15,6 @@ public class PlayerMovement : MonoBehaviour
     //movement
     private Vector2 movement;
     private Vector2 moveVelocity;
-    private bool isMovingRight = false;
 
     //shooting
     private bool isShooting = false;
@@ -29,12 +28,17 @@ public class PlayerMovement : MonoBehaviour
     //health
     private float currentHealth;
 
+    //UI
+    [SerializeField] private Slider healthBar;
     public enum MovementState { Idle, MovingRight, MoveingLeft }
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        currentHealth = stats.maxHealth;
+        healthBar.maxValue = stats.maxHealth;
+        healthBar.value = stats.maxHealth;
     }
 
     private void Update()
@@ -158,6 +162,41 @@ public class PlayerMovement : MonoBehaviour
         var b =  Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
         b.GetComponent<Bullet>().isPlayerBullet = true;
         b.GetComponent<Bullet>().Fire(transform.up, stats.bulletSpeed);
+    }
+
+    public void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+        healthBar.value = currentHealth;
+        if (currentHealth <= 0f)
+        {
+            Die();
+        }
+    }
+
+    void UpdateHealthBar()
+    {
+
+    }
+
+    void Die()
+    {
+        // Handle player death (e.g., respawn, game over screen)
+        Debug.Log("Player has died.");
+    }
+
+    #endregion
+
+    #region Reward
+    public void GetScore(float score)
+    {
+
+    }
+
+    public void GetHealth(float health)
+    {
+        currentHealth = Mathf.Min(currentHealth + health, stats.maxHealth);
+        healthBar.value = currentHealth;
     }
 
     #endregion
