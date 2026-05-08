@@ -21,11 +21,14 @@ public class Base_Enemy : MonoBehaviour
 
     [SerializeField] private Zone_Manager myZone;
 
+    Animator anim;
+
     private void Awake()
     {
         target = FindFirstObjectByType<PlayerMovement>().gameObject;
         rb = GetComponent<Rigidbody2D>();
         myZone = GetComponentInParent<Zone_Manager>();
+        anim = GetComponent<Animator>();
     }
 
     private void Update()
@@ -78,6 +81,7 @@ public class Base_Enemy : MonoBehaviour
     void TakeDamage( float damage)
     {
         health -= damage;
+        anim.SetTrigger("Hurt");
         if (health <= 0)
         {
             Die();
