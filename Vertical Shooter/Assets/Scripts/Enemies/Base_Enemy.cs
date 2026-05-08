@@ -14,15 +14,23 @@ public class Base_Enemy : MonoBehaviour
     [SerializeField] float shootingDistance;
     [SerializeField] float firingRate;
 
+    private bool isActive = false;
+
     private float shootTimer = 0f;
+
+    [SerializeField] private Zone_Manager myZone;
+
     private void Awake()
     {
         target = FindFirstObjectByType<PlayerMovement>().gameObject;
         rb = GetComponent<Rigidbody2D>();
+        myZone = GetComponentInParent<Zone_Manager>();
     }
 
     private void Update()
     {
+        if (!isActive) return;
+
         Move();
 
         if (direction.magnitude < shootingDistance)
@@ -60,6 +68,7 @@ public class Base_Enemy : MonoBehaviour
 
     void Die()
     {
+        myZone.EnemyDefeated();
         Destroy(gameObject);
     }
 
@@ -69,6 +78,11 @@ public class Base_Enemy : MonoBehaviour
         var bullet = b.GetComponent<Bullet>();
         bullet.isEnemyBullet = true;
         bullet.Fire(-transform.up, bulletSpeed);
+    }
+
+    public void SetActive(bool active)
+    {
+        isActive = active;
     }
 
     private void OnTriggerEnter2D(UnityEngine.Collider2D collision)

@@ -41,7 +41,7 @@ public class CameraManager : MonoBehaviour
         currentCamera = newCamera;
     }
 
-    public CinemachineCamera GetOldCamera(CinemachineCamera cam)
+    public CinemachineCamera GetOldCamera()
     {
         return cameraStack.Pop();
     }
