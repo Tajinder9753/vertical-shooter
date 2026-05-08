@@ -159,12 +159,12 @@ public class PlayerMovement : MonoBehaviour
     #region Shooting Logic
     void Shoot()
     {
-        var b =  Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
+        var b =  Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
         b.GetComponent<Bullet>().isPlayerBullet = true;
         b.GetComponent<Bullet>().Fire(transform.up, stats.bulletSpeed);
     }
 
-    public void TakeDamage(float damage)
+    void TakeDamage(float damage)
     {
         currentHealth -= damage;
         healthBar.value = currentHealth;
@@ -197,6 +197,24 @@ public class PlayerMovement : MonoBehaviour
     {
         currentHealth = Mathf.Min(currentHealth + health, stats.maxHealth);
         healthBar.value = currentHealth;
+    }
+
+    #endregion
+
+
+    #region Collission Logic 
+
+    private void OnTriggerEnter2D(UnityEngine.Collider2D collision)
+    {
+        if (collision.CompareTag("Bullet"))
+        {
+            if (collision.gameObject.GetComponent<Bullet>().isEnemyBullet)
+            {
+                TakeDamage(collision.gameObject.GetComponent<Bullet>().damage);
+                Destroy(collision.gameObject);
+            }
+
+        }
     }
 
     #endregion
