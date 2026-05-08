@@ -17,3 +17,4 @@ MonoBehaviour:
   moveSpeed: 10
   firingRate: 1
   bulletSpeed: 8
+  maxHealth: 100
