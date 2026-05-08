@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     [SerializeField] private Camera mainCamera;
     private Animator anim;
+    [SerializeField] GameObject gameOverPanel;
 
     //movement
     private Vector2 movement;
@@ -168,21 +169,17 @@ public class PlayerMovement : MonoBehaviour
     {
         currentHealth -= damage;
         healthBar.value = currentHealth;
+        anim.SetTrigger("Hurt");
         if (currentHealth <= 0f)
         {
             Die();
         }
     }
 
-    void UpdateHealthBar()
-    {
-
-    }
-
     void Die()
     {
-        // Handle player death (e.g., respawn, game over screen)
-        Debug.Log("Player has died.");
+        Time.timeScale = 0f;
+        gameOverPanel.SetActive(true);
     }
 
     #endregion

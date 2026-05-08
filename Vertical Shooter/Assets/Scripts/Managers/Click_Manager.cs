@@ -22,6 +22,12 @@ public class Click_Manager : MonoBehaviour
         }
     }
 
+    public void RestartLevel()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
     public void ResumeGame()
     {
         Time.timeScale = 1f;
