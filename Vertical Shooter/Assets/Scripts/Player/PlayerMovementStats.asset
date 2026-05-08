@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb007a0fc99cd2c49b78ed98db38d89e, type: 3}
   m_Name: PlayerMovementStats
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementStats
-  acceleration: 5
-  deceleration: 2
-  moveSpeed: 10
-  firingRate: 1
+  acceleration: 12
+  deceleration: 8
+  moveSpeed: 25
+  firingRate: 5
   bulletSpeed: 8
   maxHealth: 100
