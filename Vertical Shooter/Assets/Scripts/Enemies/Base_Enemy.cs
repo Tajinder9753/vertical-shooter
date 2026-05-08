@@ -13,7 +13,8 @@ public class Base_Enemy : MonoBehaviour
     Vector2 direction; //direction for looking also distance checking for shooting
     [SerializeField] float shootingDistance;
     [SerializeField] float firingRate;
-
+    [SerializeField] float separationRadius;
+    [SerializeField] float separationForce;
     private bool isActive = false;
 
     private float shootTimer = 0f;
@@ -31,6 +32,7 @@ public class Base_Enemy : MonoBehaviour
     {
         if (!isActive) return;
 
+        Seperate();
         Move();
 
         if (direction.magnitude < shootingDistance)
@@ -46,6 +48,22 @@ public class Base_Enemy : MonoBehaviour
         else
         {
             shootTimer = 0f;
+        }
+    }
+
+    void Seperate()
+    {
+        Collider2D[] neighbours = Physics2D.OverlapCircleAll(transform.position, separationRadius);
+        foreach(var neighbour in neighbours)
+        {
+            if (neighbour.gameObject == gameObject) continue;
+            if (!neighbour.TryGetComponent<Base_Enemy>(out _)) continue;
+
+            Vector2 pushDirection = (Vector2)(transform.position - neighbour.transform.position);
+
+            // The closer they are the stronger the push
+            float strength = 1f - (pushDirection.magnitude / separationRadius);
+            rb.AddForce(pushDirection.normalized * strength * separationForce);
         }
     }
 
@@ -96,6 +114,22 @@ public class Base_Enemy : MonoBehaviour
                 Destroy(collision.gameObject);
             }
                 
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Player"))
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Player"))
+        {
+            rb.linearVelocity = Vector2.zero;
         }
     }
 }

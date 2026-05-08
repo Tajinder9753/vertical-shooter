@@ -142,10 +142,13 @@ MonoBehaviour:
   bulletPrefab: {fileID: 3690810947528083247, guid: fed925dd38ff3ab44849f4cd614828fd, type: 3}
   bulletSpawnPoint: {fileID: 4814483176077063819}
   bulletSpeed: 4
-  speed: 1
+  speed: 2
   health: 100
   shootingDistance: 10
   firingRate: 1
+  separationRadius: 0
+  separationForce: 0
+  myZone: {fileID: 0}
 --- !u!50 &2496681709926901706
 Rigidbody2D:
   serializedVersion: 5
@@ -159,10 +162,10 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 0
+  m_LinearDamping: 3
   m_AngularDamping: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 82a6401da7dace24da21adfc9cfd1ec9, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
