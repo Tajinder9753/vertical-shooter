@@ -13,7 +13,7 @@ public class Zone_Manager : MonoBehaviour
     [SerializeField] private bool safeArea = false;
     [SerializeField] GameObject enemy;
     [SerializeField] Transform[] spawnPoints;
-    [SerializeField] private Tilemap tilemap;
+    [SerializeField] private Tilemap exitTilemap;
     [SerializeField] float fadeInDuration = 0.5f;
 
     public void EnemyDefeated()
@@ -89,35 +89,35 @@ public class Zone_Manager : MonoBehaviour
 
     IEnumerator FadeIn()
     {
-        tilemap.gameObject.SetActive(true);
-        Color c = tilemap.color;
+        exitTilemap.gameObject.SetActive(true);
+        Color c = exitTilemap.color;
         c.a = 0f;
-        tilemap.color = c;
+        exitTilemap.color = c;
 
         float elapsedTime = 0f;
         while (elapsedTime < fadeInDuration)
         {
             elapsedTime += Time.deltaTime;
             c.a = Mathf.Clamp01(elapsedTime / fadeInDuration);
-            tilemap.color = c;
+            exitTilemap.color = c;
             yield return null;
         }
     }   
 
     IEnumerator FadeOut()
     {
-        Color c = tilemap.color;
+        Color c = exitTilemap.color;
         c.a = 1f;
-        tilemap.color = c;
+        exitTilemap.color = c;
         float elapsedTime = 0f;
         while (elapsedTime < fadeInDuration)
         {
             elapsedTime += Time.deltaTime;
             c.a = 1f - Mathf.Clamp01(elapsedTime / fadeInDuration);
-            tilemap.color = c;
+            exitTilemap.color = c;
             yield return null;
         }
-        tilemap.gameObject.SetActive(false);
+        exitTilemap.gameObject.SetActive(false);
     }
 
 }
