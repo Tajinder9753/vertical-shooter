@@ -1,5 +1,7 @@
+using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Zone_Manager : MonoBehaviour
 {
@@ -11,16 +13,8 @@ public class Zone_Manager : MonoBehaviour
     [SerializeField] private bool safeArea = false;
     [SerializeField] GameObject enemy;
     [SerializeField] Transform[] spawnPoints;
-
-    //private void Awake()
-    //{
-    //    if (!safeArea)
-    //    {
-    //        zoneEnemies = GetComponentsInChildren<Base_Enemy>();
-    //        remainingEnemies = zoneEnemies.Length;
-    //    }
-
-    //}
+    [SerializeField] private Tilemap tilemap;
+    [SerializeField] float fadeInDuration = 0.5f;
 
     public void EnemyDefeated()
     {
@@ -41,6 +35,7 @@ public class Zone_Manager : MonoBehaviour
             Collider2D collider = bound.GetComponent<Collider2D>();
             collider.isTrigger = true;
         }
+        FadeOutTilemap();
     }
 
     public void OnPlayerEnter()
@@ -77,6 +72,52 @@ public class Zone_Manager : MonoBehaviour
             {
                 enemy.SetActive(true);
             }
+
+            FadeInTilemap();
         }
     }
+
+    public void FadeInTilemap()
+    {
+        StartCoroutine(FadeIn());
+    }
+
+    public void FadeOutTilemap()
+    {
+        StartCoroutine(FadeOut());
+    }
+
+    IEnumerator FadeIn()
+    {
+        tilemap.gameObject.SetActive(true);
+        Color c = tilemap.color;
+        c.a = 0f;
+        tilemap.color = c;
+
+        float elapsedTime = 0f;
+        while (elapsedTime < fadeInDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            c.a = Mathf.Clamp01(elapsedTime / fadeInDuration);
+            tilemap.color = c;
+            yield return null;
+        }
+    }   
+
+    IEnumerator FadeOut()
+    {
+        Color c = tilemap.color;
+        c.a = 1f;
+        tilemap.color = c;
+        float elapsedTime = 0f;
+        while (elapsedTime < fadeInDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            c.a = 1f - Mathf.Clamp01(elapsedTime / fadeInDuration);
+            tilemap.color = c;
+            yield return null;
+        }
+        tilemap.gameObject.SetActive(false);
+    }
+
 }
