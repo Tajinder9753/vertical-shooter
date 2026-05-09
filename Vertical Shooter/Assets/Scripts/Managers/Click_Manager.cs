@@ -44,4 +44,20 @@ public class Click_Manager : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void SaveGame()
+    {
+
+    }
+
+    public void LoadGame()
+    {
+
+    }
+
+    public void NewGame()
+    {
+        PlayerRuntimeStats.Instance.InitializeStats();
+        SceneManager.LoadScene("Level_1");
+    }
 }

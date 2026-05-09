@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public PlayerMovementStats stats;
+    public PlayerRuntimeStats stats;
     private Rigidbody2D rb;
     [SerializeField] private Camera mainCamera;
     private Animator anim;
@@ -37,9 +37,15 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
+        stats = PlayerRuntimeStats.Instance;
         currentHealth = stats.maxHealth;
         healthBar.maxValue = stats.maxHealth;
         healthBar.value = stats.maxHealth;
+
     }
 
     private void Update()

@@ -42,7 +42,7 @@ public class Zone_Manager : MonoBehaviour
     {
         CameraManager.instance.SwitchCamera(virtualCamera);
         virtualCamera = CameraManager.instance.GetOldCamera();
-        if (!safeArea)
+        if (!safeArea && !zoneCleared)
         {
             SpawnEnemies();
         }
@@ -61,7 +61,7 @@ public class Zone_Manager : MonoBehaviour
 
     public void OnPlayerExit()
     {
-        if (!zoneCleared)
+        if (!zoneCleared && !safeArea)
         {
             foreach (var bound in bounds)
             {
