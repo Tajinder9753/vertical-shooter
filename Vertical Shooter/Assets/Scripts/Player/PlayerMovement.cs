@@ -26,9 +26,6 @@ public class PlayerMovement : MonoBehaviour
     //rotation
     private Vector2 lookMovement;
 
-    //health
-    private float currentHealth;
-
     //UI
     [SerializeField] private Slider healthBar;
     public enum MovementState { Idle, MovingRight, MoveingLeft }
@@ -42,9 +39,8 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         stats = PlayerRuntimeStats.Instance;
-        currentHealth = stats.maxHealth;
         healthBar.maxValue = stats.maxHealth;
-        healthBar.value = stats.maxHealth;
+        healthBar.value = stats.currentHealth;
 
     }
 
@@ -173,10 +169,10 @@ public class PlayerMovement : MonoBehaviour
 
     void TakeDamage(float damage)
     {
-        currentHealth -= damage;
-        healthBar.value = currentHealth;
+        stats.currentHealth -= damage;
+        healthBar.value = stats.currentHealth;
         anim.SetTrigger("Hurt");
-        if (currentHealth <= 0f)
+        if (stats.currentHealth <= 0f)
         {
             Die();
         }
@@ -198,8 +194,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void GetHealth(float health)
     {
-        currentHealth = Mathf.Min(currentHealth + health, stats.maxHealth);
-        healthBar.value = currentHealth;
+        stats.currentHealth = Mathf.Min(stats.currentHealth + health, stats.maxHealth);
+        healthBar.value = stats.currentHealth;
     }
 
     #endregion

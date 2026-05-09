@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-public class PlayerRuntimeStats : MonoBehaviour
+public class PlayerRuntimeStats : MonoBehaviour, IDataPersistance
 {
     [SerializeField] private PlayerMovementStats playerMovementStats;
 
@@ -18,7 +18,17 @@ public class PlayerRuntimeStats : MonoBehaviour
     public float maxHealth;
     public float currentHealth;
 
+    //Interface implementation
 
+    public void LoadData(GameData data)
+    {
+        this.currentHealth = data.currentHealth;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.currentHealth = this.currentHealth;
+    }
 
 
     public void InitializeStats()
