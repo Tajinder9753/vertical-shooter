@@ -18,6 +18,10 @@ public class PlayerRuntimeStats : MonoBehaviour, IDataPersistance
     public float maxHealth;
     public float currentHealth;
 
+    //scene information
+    public string currentScene;
+    public int currentLevelIndex;
+
     //Interface implementation
 
     public void LoadData(GameData data)
@@ -29,6 +33,7 @@ public class PlayerRuntimeStats : MonoBehaviour, IDataPersistance
         this.firingRate = data.firingRate;
         this.bulletSpeed = data.bulletSpeed;
         this.maxHealth = data.maxHealth;
+        this.currentScene = data.currentScene;
     }
 
     public void SaveData(ref GameData data)
@@ -40,6 +45,7 @@ public class PlayerRuntimeStats : MonoBehaviour, IDataPersistance
         data.moveSpeed = this.moveSpeed;
         data.bulletSpeed = this.bulletSpeed;
         data.maxHealth = this.maxHealth;
+        data.currentScene = this.currentScene;
     }
 
 

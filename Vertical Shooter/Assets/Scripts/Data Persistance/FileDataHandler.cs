@@ -12,6 +12,12 @@ public class FileDataHandler
         this.dataFileName = dataFileName;
     }
 
+    public bool HasSavedData()
+    {
+        string fullPath = Path.Combine(dataDirPath, dataFileName);
+        return File.Exists(fullPath);
+    }
+
     public GameData Load()
     {
         string fullPath = Path.Combine(dataDirPath, dataFileName);

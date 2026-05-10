@@ -1,20 +1,33 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class Click_Manager : MonoBehaviour, IDataPersistance
+public class Click_Manager : MonoBehaviour
 {
     [SerializeField] GameObject pausePanel;
-    [SerializeField] string currentScene;
-    private int currentLevelIndex;
-
-    private void Awake()
+    [SerializeField] Button loadButton;
+     void Start()
     {
-        DontDestroyOnLoad(this);
+        if (SceneManager.GetActiveScene().name == "Main_Menu")
+        {
+            if (DataPersistanceManager.instance.HasSavedData())
+            {
+                loadButton.interactable = true;
+            }
+            else
+            {
+                loadButton.interactable = false;
+            }
+        }
     }
 
     public void OnPause(InputAction.CallbackContext context)
     {
+        if (SceneManager.GetActiveScene().name == "MainMenu")
+        {
+            return;
+        }
 
         if (Time.timeScale == 0f)
         {
@@ -31,9 +44,9 @@ public class Click_Manager : MonoBehaviour, IDataPersistance
     public void RestartLevel()
     {
         Time.timeScale = 1f;
-        currentScene = SceneManager.GetActiveScene().name;
-        currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(currentScene);
+        PlayerRuntimeStats.Instance.currentScene = SceneManager.GetActiveScene().name;
+        PlayerRuntimeStats.Instance.currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(PlayerRuntimeStats.Instance.currentScene);
     }
 
     public void ResumeGame()
@@ -50,11 +63,11 @@ public class Click_Manager : MonoBehaviour, IDataPersistance
 
     public void NextLevel()
     {
-        currentLevelIndex++;
-        if (currentLevelIndex < SceneManager.sceneCountInBuildSettings)
+        PlayerRuntimeStats.Instance.currentLevelIndex++;
+        if (PlayerRuntimeStats.Instance.currentLevelIndex < SceneManager.sceneCountInBuildSettings)
         {
-            currentScene = SceneManager.GetSceneAt(currentLevelIndex).name;
-            SceneManager.LoadScene(currentLevelIndex);
+            PlayerRuntimeStats.Instance.currentScene = SceneManager.GetSceneAt(PlayerRuntimeStats.Instance.currentLevelIndex).name;
+            SceneManager.LoadScene(PlayerRuntimeStats.Instance.currentLevelIndex);
         }
         else
         {
@@ -75,24 +88,14 @@ public class Click_Manager : MonoBehaviour, IDataPersistance
     public void LoadGame()
     {
         DataPersistanceManager.instance.LoadGame();
-        SceneManager.LoadScene(currentScene);
+        SceneManager.LoadScene(PlayerRuntimeStats.Instance.currentScene);
     }
 
     public void NewGame()
     {
         PlayerRuntimeStats.Instance.InitializeStats();
         DataPersistanceManager.instance.NewGame();
-        currentScene = "Level_1";
+        PlayerRuntimeStats.Instance.currentScene = "Level_1";
         SceneManager.LoadScene("Level_1");
-    }
-
-    public void LoadData(GameData data)
-    {
-        this.currentScene = data.currentScene;
-    }
-
-    public void SaveData(ref GameData data)
-    {
-        data.currentScene = this.currentScene;
     }
 }

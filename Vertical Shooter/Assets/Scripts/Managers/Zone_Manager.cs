@@ -16,6 +16,7 @@ public class Zone_Manager : MonoBehaviour, IDataPersistance
     [SerializeField] private Tilemap exitTilemap;
     [SerializeField] float fadeInDuration = 0.5f;
     [SerializeField] string zoneName;
+    [SerializeField] bool isCheckpoint;
 
     public void EnemyDefeated()
     {
@@ -23,9 +24,12 @@ public class Zone_Manager : MonoBehaviour, IDataPersistance
 
         if (remainingEnemies == 0)
         {
-            Debug.Log("Enemies Defeated!");
             zoneCleared = true;
             OpenArea();
+            if (isCheckpoint)
+            {
+                DataPersistanceManager.instance.SaveGame();
+            }
         }
     }
 
@@ -75,6 +79,11 @@ public class Zone_Manager : MonoBehaviour, IDataPersistance
             }
 
             FadeInTilemap();
+        }
+
+        if (isCheckpoint)
+        {
+            DataPersistanceManager.instance.SaveGame();
         }
     }
 

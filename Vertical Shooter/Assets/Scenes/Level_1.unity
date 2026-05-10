@@ -2582,7 +2582,7 @@ Transform:
   m_GameObject: {fileID: 828099224}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.38, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8421,6 +8421,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Zone_Manager
   virtualCamera: {fileID: 1270771122}
   zoneEnemies: []
+  zoneCleared: 0
   bounds:
   - {fileID: 1716349215}
   safeArea: 0
@@ -8428,6 +8429,7 @@ MonoBehaviour:
   spawnPoints: []
   exitTilemap: {fileID: 773178279}
   fadeInDuration: 0.5
+  zoneName: Zone2
 --- !u!1 &1048855697
 GameObject:
   m_ObjectHideFlags: 0
@@ -9554,6 +9556,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Click_Manager
   pausePanel: {fileID: 1860569358}
+  currentScene: 
 --- !u!4 &1296349557
 Transform:
   m_ObjectHideFlags: 0
@@ -9912,6 +9915,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Zone_Manager
   virtualCamera: {fileID: 128923008}
   zoneEnemies: []
+  zoneCleared: 0
   bounds:
   - {fileID: 1219636589}
   safeArea: 0
@@ -9921,6 +9925,7 @@ MonoBehaviour:
   - {fileID: 2022592471}
   exitTilemap: {fileID: 333562008}
   fadeInDuration: 0.5
+  zoneName: Zone1
 --- !u!1 &1716349215
 GameObject:
   m_ObjectHideFlags: 0
