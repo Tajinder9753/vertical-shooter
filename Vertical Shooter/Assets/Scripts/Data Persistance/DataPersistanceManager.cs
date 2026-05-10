@@ -23,12 +23,12 @@ public class DataPersistanceManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+            this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
         }
     }
 
     private void Start()
     {
-        this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
         this.dataPersistanceObjects = FindAllDataPersistanceObjects();
         LoadGame();
     }
@@ -61,8 +61,12 @@ public class DataPersistanceManager : MonoBehaviour
             dataPersistanceObject.LoadData(gameData);
         }
 
-        Debug.Log("Loaded current health: " + gameData.currentHealth);
-        Debug.Log("Loaded Zones Cleared: " + string.Join(", ", gameData.zonesCleared));
+    }
+
+    public void ResetForNewLevel()
+    {
+        gameData.playerPos = Vector2.zero;
+        gameData.zonesCleared.Clear();
     }
 
     public void SaveGame()
@@ -71,9 +75,6 @@ public class DataPersistanceManager : MonoBehaviour
         {
             dataPersistanceObject.SaveData(ref gameData);
         }
-
-        Debug.Log("Saved current health: " + gameData.currentHealth);
-        Debug.Log("Saved Zones Cleared: " + string.Join(", ", gameData.zonesCleared));
 
         dataHandler.Save(gameData);
     }

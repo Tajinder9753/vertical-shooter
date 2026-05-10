@@ -21,6 +21,7 @@ public class PlayerRuntimeStats : MonoBehaviour, IDataPersistance
     //scene information
     public string currentScene;
     public int currentLevelIndex;
+    public bool completedLevel;
 
     //Interface implementation
 

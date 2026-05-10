@@ -27,7 +27,10 @@ public class CameraManager : MonoBehaviour
 
     private void Start()
     {
-        SwitchCamera(startingCamera);
+        if (currentCamera == null)
+        {
+            SwitchCamera(startingCamera);
+        }
     }
 
     public void SwitchCamera(CinemachineCamera newCamera)
@@ -44,5 +47,10 @@ public class CameraManager : MonoBehaviour
     public CinemachineCamera GetOldCamera()
     {
         return cameraStack.Pop();
+    }
+
+    public bool IsCurrentCamera(CinemachineCamera camera)
+    {
+        return currentCamera == camera;
     }
 }

@@ -13,6 +13,7 @@ public class GameData
     public Vector2 playerPos;
     public string currentScene;
     public Serializable_Dictionary<string, bool> zonesCleared;
+    public string currentCameraZone;
     public GameData()
     {
         this.currentHealth = 100;

@@ -7,6 +7,7 @@ public class Click_Manager : MonoBehaviour
 {
     [SerializeField] GameObject pausePanel;
     [SerializeField] Button loadButton;
+    [SerializeField] Button nextLevelButton;
      void Start()
     {
         if (SceneManager.GetActiveScene().name == "Main_Menu")
@@ -18,6 +19,16 @@ public class Click_Manager : MonoBehaviour
             else
             {
                 loadButton.interactable = false;
+            }
+        }
+        else
+        {
+            if (PlayerRuntimeStats.Instance.completedLevel)
+            {
+                nextLevelButton.interactable = true;
+            }else
+            {
+                nextLevelButton.interactable = false;
             }
         }
     }
@@ -46,6 +57,7 @@ public class Click_Manager : MonoBehaviour
         Time.timeScale = 1f;
         PlayerRuntimeStats.Instance.currentScene = SceneManager.GetActiveScene().name;
         PlayerRuntimeStats.Instance.currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
+        DataPersistanceManager.instance.ResetForNewLevel();
         SceneManager.LoadScene(PlayerRuntimeStats.Instance.currentScene);
     }
 
@@ -67,6 +79,7 @@ public class Click_Manager : MonoBehaviour
         if (PlayerRuntimeStats.Instance.currentLevelIndex < SceneManager.sceneCountInBuildSettings)
         {
             PlayerRuntimeStats.Instance.currentScene = SceneManager.GetSceneAt(PlayerRuntimeStats.Instance.currentLevelIndex).name;
+            DataPersistanceManager.instance.ResetForNewLevel();
             SceneManager.LoadScene(PlayerRuntimeStats.Instance.currentLevelIndex);
         }
         else

@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 public class Zone_Manager : MonoBehaviour, IDataPersistance
 {
     [SerializeField] CinemachineCamera virtualCamera;
+    [SerializeField] CinemachineCamera permanentZoneCam;
     [SerializeField] private Base_Enemy[] zoneEnemies;
     private int remainingEnemies;
     [SerializeField] private bool zoneCleared;
@@ -81,7 +82,7 @@ public class Zone_Manager : MonoBehaviour, IDataPersistance
             FadeInTilemap();
         }
 
-        if (isCheckpoint)
+        if (isCheckpoint && safeArea)
         {
             DataPersistanceManager.instance.SaveGame();
         }
@@ -138,6 +139,11 @@ public class Zone_Manager : MonoBehaviour, IDataPersistance
         {
             this.zoneCleared = true;
         }
+
+        if (!string.IsNullOrEmpty(data.currentCameraZone) && data.currentCameraZone == this.zoneName)
+        {
+            CameraManager.instance.SwitchCamera(permanentZoneCam);
+        }
     }
 
     public void SaveData(ref GameData data)
@@ -147,5 +153,14 @@ public class Zone_Manager : MonoBehaviour, IDataPersistance
             data.zonesCleared.Remove(zoneName);
         }
         data.zonesCleared.Add(zoneName, zoneCleared);
+
+        if (CameraManager.instance.IsCurrentCamera(permanentZoneCam))
+        {
+            Debug.Log("Saving camera");
+            data.currentCameraZone = zoneName;
+        } else
+        {
+            Debug.Log("Not saving camera");
+        }
     }
 }
