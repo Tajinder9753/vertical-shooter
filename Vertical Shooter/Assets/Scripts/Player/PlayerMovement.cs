@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IDataPersistance
 {
     public PlayerRuntimeStats stats;
     private Rigidbody2D rb;
@@ -214,6 +214,16 @@ public class PlayerMovement : MonoBehaviour
             }
 
         }
+    }
+
+    public void LoadData(GameData data)
+    {
+        this.transform.position = data.playerPos;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+       data.playerPos = this.transform.position;
     }
 
     #endregion

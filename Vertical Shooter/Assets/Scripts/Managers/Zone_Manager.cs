@@ -3,18 +3,19 @@ using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class Zone_Manager : MonoBehaviour
+public class Zone_Manager : MonoBehaviour, IDataPersistance
 {
     [SerializeField] CinemachineCamera virtualCamera;
     [SerializeField] private Base_Enemy[] zoneEnemies;
     private int remainingEnemies;
-    private bool zoneCleared = false;
+    [SerializeField] private bool zoneCleared;
     [SerializeField] GameObject[] bounds;
     [SerializeField] private bool safeArea = false;
     [SerializeField] GameObject enemy;
     [SerializeField] Transform[] spawnPoints;
     [SerializeField] private Tilemap exitTilemap;
     [SerializeField] float fadeInDuration = 0.5f;
+    [SerializeField] string zoneName;
 
     public void EnemyDefeated()
     {
@@ -120,4 +121,22 @@ public class Zone_Manager : MonoBehaviour
         exitTilemap.gameObject.SetActive(false);
     }
 
+    public void LoadData(GameData data)
+    {
+       data.zonesCleared.TryGetValue(zoneName, out zoneCleared);
+
+        if (zoneCleared)
+        {
+            this.zoneCleared = true;
+        }
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        if (data.zonesCleared.ContainsKey(zoneName))
+        {
+            data.zonesCleared.Remove(zoneName);
+        }
+        data.zonesCleared.Add(zoneName, zoneCleared);
+    }
 }

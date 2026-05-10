@@ -62,6 +62,7 @@ public class DataPersistanceManager : MonoBehaviour
         }
 
         Debug.Log("Loaded current health: " + gameData.currentHealth);
+        Debug.Log("Loaded Zones Cleared: " + string.Join(", ", gameData.zonesCleared));
     }
 
     public void SaveGame()
@@ -72,6 +73,7 @@ public class DataPersistanceManager : MonoBehaviour
         }
 
         Debug.Log("Saved current health: " + gameData.currentHealth);
+        Debug.Log("Saved Zones Cleared: " + string.Join(", ", gameData.zonesCleared));
 
         dataHandler.Save(gameData);
     }

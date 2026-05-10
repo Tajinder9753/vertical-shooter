@@ -23,11 +23,23 @@ public class PlayerRuntimeStats : MonoBehaviour, IDataPersistance
     public void LoadData(GameData data)
     {
         this.currentHealth = data.currentHealth;
+        this.acceleration = data.acceleration;
+        this.deceleration = data.deceleration;
+        this.moveSpeed = data.moveSpeed;
+        this.firingRate = data.firingRate;
+        this.bulletSpeed = data.bulletSpeed;
+        this.maxHealth = data.maxHealth;
     }
 
     public void SaveData(ref GameData data)
     {
         data.currentHealth = this.currentHealth;
+        data.acceleration = this.acceleration;
+        data.deceleration= this.deceleration;
+        data.firingRate = this.firingRate;
+        data.moveSpeed = this.moveSpeed;
+        data.bulletSpeed = this.bulletSpeed;
+        data.maxHealth = this.maxHealth;
     }
 
 
