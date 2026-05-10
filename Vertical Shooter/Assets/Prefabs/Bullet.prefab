@@ -108,6 +108,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
   isPlayerBullet: 0
   isEnemyBullet: 0
+  timeToLive: 5
   damage: 25
 --- !u!50 &1429375498006527420
 Rigidbody2D:

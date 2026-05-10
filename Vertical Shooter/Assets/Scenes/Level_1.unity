@@ -1189,6 +1189,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 393790932}
   m_CullTransparentMesh: 1
+--- !u!1 &397357341
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 397357342}
+  m_Layer: 0
+  m_Name: Fast Spawn Points
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &397357342
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 397357341}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1323840966}
+  m_Father: {fileID: 1016237590}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &416575003
 GameObject:
   m_ObjectHideFlags: 0
@@ -2028,7 +2060,7 @@ GameObject:
   m_Component:
   - component: {fileID: 733860402}
   m_Layer: 0
-  m_Name: Spawn Points
+  m_Name: Basic Spawn Points
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8639,6 +8671,7 @@ Transform:
   m_Children:
   - {fileID: 1496726782}
   - {fileID: 733860402}
+  - {fileID: 397357342}
   m_Father: {fileID: 1206512533}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1016237591
@@ -8660,11 +8693,16 @@ MonoBehaviour:
   bounds:
   - {fileID: 1716349215}
   safeArea: 0
-  enemy: {fileID: 5772174216767607216, guid: 053d8be132634a34e97d44f6970c74c1, type: 3}
-  spawnPoints:
+  enemies:
+  - {fileID: 5772174216767607216, guid: 053d8be132634a34e97d44f6970c74c1, type: 3}
+  - {fileID: 2177863142825518824, guid: be7e921522ce6a1429f6ee78bf9dd73f, type: 3}
+  baseEnemySpawnPoints:
   - {fileID: 862954982}
   - {fileID: 2139053956}
   - {fileID: 1357915232}
+  fastEnemySpawnPoints:
+  - {fileID: 1323840966}
+  strongEnemySpawnPoints: []
   exitTilemap: {fileID: 773178279}
   fadeInDuration: 0.5
   zoneName: Zone2
@@ -8679,7 +8717,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1048855698}
   m_Layer: 0
-  m_Name: Spawn Points
+  m_Name: Basic Spawn Points
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9813,6 +9851,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 152189715}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1323840965
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1323840966}
+  m_Layer: 0
+  m_Name: Point 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1323840966
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1323840965}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 20.84, y: 18.69, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 397357342}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1346302366
 GameObject:
   m_ObjectHideFlags: 0
@@ -10195,10 +10264,13 @@ MonoBehaviour:
   bounds:
   - {fileID: 1219636589}
   safeArea: 0
-  enemy: {fileID: 5772174216767607216, guid: 053d8be132634a34e97d44f6970c74c1, type: 3}
-  spawnPoints:
+  enemies:
+  - {fileID: 5772174216767607216, guid: 053d8be132634a34e97d44f6970c74c1, type: 3}
+  baseEnemySpawnPoints:
   - {fileID: 1845865646}
   - {fileID: 2022592471}
+  fastEnemySpawnPoints: []
+  strongEnemySpawnPoints: []
   exitTilemap: {fileID: 333562008}
   fadeInDuration: 0.5
   zoneName: Zone1

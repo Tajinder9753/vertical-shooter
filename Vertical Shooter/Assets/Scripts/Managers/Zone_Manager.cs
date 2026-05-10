@@ -12,8 +12,10 @@ public class Zone_Manager : MonoBehaviour, IDataPersistance
     [SerializeField] private bool zoneCleared;
     [SerializeField] GameObject[] bounds;
     [SerializeField] private bool safeArea = false;
-    [SerializeField] GameObject enemy;
-    [SerializeField] Transform[] spawnPoints;
+    [SerializeField] GameObject[] enemies;
+    [SerializeField] Transform[] baseEnemySpawnPoints;
+    [SerializeField] Transform[] fastEnemySpawnPoints;
+    [SerializeField] Transform[] strongEnemySpawnPoints;
     [SerializeField] private Tilemap exitTilemap;
     [SerializeField] float fadeInDuration = 0.5f;
     [SerializeField] string zoneName;
@@ -29,7 +31,7 @@ public class Zone_Manager : MonoBehaviour, IDataPersistance
             OpenArea();
             if (isCheckpoint)
             {
-                DataPersistanceManager.instance.SaveGame();
+                //DataPersistanceManager.instance.SaveGame();
             }
         }
     }
@@ -56,11 +58,34 @@ public class Zone_Manager : MonoBehaviour, IDataPersistance
 
     void SpawnEnemies()
     {
-        foreach (var spawnPoint in spawnPoints)
+        if (baseEnemySpawnPoints != null)
         {
-            GameObject spawnedEnemy = Instantiate(enemy, spawnPoint.position, Quaternion.identity, this.transform);
-            Base_Enemy enemyScript = spawnedEnemy.GetComponent<Base_Enemy>();
+            foreach (var spawnPoint in baseEnemySpawnPoints)
+            {
+                GameObject spawnedEnemy = Instantiate(enemies[0], spawnPoint.position, Quaternion.identity, this.transform);
+                Base_Enemy enemyScript = spawnedEnemy.GetComponent<Base_Enemy>();
+            }
         }
+
+
+        if (fastEnemySpawnPoints != null)
+        {
+            foreach (var spawnPoint in fastEnemySpawnPoints)
+            {
+                GameObject spawnedEnemy = Instantiate(enemies[1], spawnPoint.position, Quaternion.identity, this.transform);
+                Base_Enemy enemyScript = spawnedEnemy.GetComponent<Base_Enemy>();
+            }
+        }
+
+        if (strongEnemySpawnPoints != null)
+        {
+            foreach (var spawnPoint in strongEnemySpawnPoints)
+            {
+                GameObject spawnedEnemy = Instantiate(enemies[2], spawnPoint.position, Quaternion.identity, this.transform);
+                Base_Enemy enemyScript = spawnedEnemy.GetComponent<Base_Enemy>();
+            }
+        }
+
         zoneEnemies = GetComponentsInChildren<Base_Enemy>();
         remainingEnemies = zoneEnemies.Length;
     }
@@ -84,7 +109,7 @@ public class Zone_Manager : MonoBehaviour, IDataPersistance
 
         if (isCheckpoint && safeArea)
         {
-            DataPersistanceManager.instance.SaveGame();
+            //DataPersistanceManager.instance.SaveGame();
         }
     }
 

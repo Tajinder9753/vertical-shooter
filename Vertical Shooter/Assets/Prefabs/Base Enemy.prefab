@@ -147,8 +147,8 @@ MonoBehaviour:
   health: 100
   shootingDistance: 10
   firingRate: 1
-  separationRadius: 0
-  separationForce: 0
+  separationRadius: 2
+  separationForce: 2
   myZone: {fileID: 0}
 --- !u!50 &2496681709926901706
 Rigidbody2D:
